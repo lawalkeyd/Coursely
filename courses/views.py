@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Course
 from django.urls import reverse_lazy
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .serializers import OwnerViewCourses
 
 
@@ -10,6 +11,8 @@ from .serializers import OwnerViewCourses
 class OwnerCourseListView(ListAPIView):
     model = Course
     serializer_class = OwnerViewCourses
+    queryset = Course.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         qs = super().get_queryset()
