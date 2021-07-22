@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import ManageCourseListView
+from .views import OwnerCourseListView
 
 urlpatterns = [
-    path('/instructors/courses', ManageCourseListView, name='instructor_courses')
+    path('instructors/courses', OwnerCourseListView, name='instructor_courses')
 ]

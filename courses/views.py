@@ -1,14 +1,15 @@
 from django.shortcuts import render
 from .models import Course
-from django.views.generic.list import ListView
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
+from .serializers import OwnerViewCourses
 
 
 # Create your views here.
 
-class ManageCourseListView(ListView):
+class OwnerCourseListView(ListAPIView):
     model = Course
+    serializer_class = OwnerViewCourses
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -31,4 +32,6 @@ class OwnerCourseMixin(OwnerMixin):
     success_url = reverse_lazy('manage_course_list')
 
 class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
-        
+    pass
+
+
