@@ -1,7 +1,10 @@
 from django.urls import path
-from .views import AddContentView, AddUpdateModule
+from .views import AddFileView, ListCreateModuleView, ListCreateCourseView, EditCourseView, EditModuleView
 
 urlpatterns = [
-    path('modules/', AddUpdateModule.as_view(), name='add_update_modules'),
-    path('content/add/', AddContentView.as_view(), name='add_module_content'),
+    path('', ListCreateCourseView.as_view(), name='add_list_course'),
+    path('<pk>', EditCourseView.as_view(), name='edit_course'),
+    path('module/', ListCreateModuleView.as_view(), name='add_list_modules'),
+    path('module/<pk>', EditModuleView.as_view(), name='edit_module'),
+    path('content/add/file', AddFileView.as_view(), name='add_module_content'),
 ]
