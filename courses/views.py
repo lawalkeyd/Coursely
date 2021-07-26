@@ -1,27 +1,25 @@
 from django.shortcuts import render
 from rest_framework import serializers
 from .models import Content, Course, Module, File
-from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from .serializers import FileSerializer, ModuleSerializer, CourseSerializer
 
 
-class ListCreateCourseView(CreateAPIView):
+class ListCreateCourseView(ListCreateAPIView):
     model = Course
     serializer_class = CourseSerializer
-    queryset = Course.objects.all()
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(owner = qs.request.user)   
+        user = self.request.user
+        return user.courses_created.all()
 
 class EditCourseView(RetrieveUpdateDestroyAPIView):
     model = Course
     serializer_class = CourseSerializer
-    queryset = Course.objects.all()
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(owner = qs.request.user)   
+        user = self.request.user
+        return user.courses_created.all()
 
 class ListCreateModuleView(CreateAPIView):
     model = Module

@@ -4,6 +4,7 @@ from .models import Module, Text, Video, Image, File, Content, Course
 from django.apps import apps
 
 class CourseSerializer(serializers.ModelSerializer):
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Course
         fields = '__all__'
