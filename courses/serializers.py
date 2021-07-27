@@ -9,23 +9,19 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = '__all__'
 
-class ContentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Content
-        fields = '__all__'
-
 class ModuleSerializer(serializers.ModelSerializer):
-    contents = serializers.PrimaryKeyRelatedField(many=True, queryset=Content.objects.all())
+    #contents = serializers.PrimaryKeyRelatedField(many=True, queryset=Content.objects.all())
 
     class Meta:
         model = Module
         fields = '__all__'
+      
+class ContentSerializer(serializers.ModelSerializer):
+    module = ModuleSerializer()
+    class Meta:
+        model = Content
+        fields = '__all__'
 
-    def create(self, validated_data):
-        return
-
-    def update(self, validated_data):
-        return        
 
 class TextSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
