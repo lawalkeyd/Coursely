@@ -38,13 +38,6 @@ class Module(models.Model):
     def __str__(self):
         return self.title
 
-class Content(models.Model):
-    module = models.ForeignKey(Module, related_name='contents', on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, limit_choices_to={'model__in': ('text', 'image', 'file', 'video')})
-    object_id = models.PositiveIntegerField()
-    item = GenericForeignKey()
-
-
 
 class ItemBase(models.Model):
     owner = models.ForeignKey(User, related_name='%(app_label)s_%(class)s_related', on_delete=models.CASCADE)
@@ -59,13 +52,17 @@ class ItemBase(models.Model):
         return self.title    
 
 class Text(ItemBase):
+    module = models.ForeignKey(Module, related_name='text', on_delete=models.CASCADE)
     content = models.TextField()
 
 class File(ItemBase):
+    module = models.ForeignKey(Module, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='files')
 
 class Image(ItemBase):
+    module = models.ForeignKey(Module, related_name='images', on_delete=models.CASCADE)
     file = models.FileField(upload_to='images')
 
 class Video(ItemBase):
+    module = models.ForeignKey(Module, related_name='videos', on_delete=models.CASCADE)
     url = models.URLField()    
