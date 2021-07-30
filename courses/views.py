@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import permissions
-from .models import Course, Module, File
+from .models import Course, Module, File, Video, Image, Text
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
-from .serializers import FileSerializer, ModuleSerializer, CourseSerializer
+from .serializers import FileSerializer, ModuleSerializer, CourseSerializer, VideoSerializer, ImageSerializer, 
 
 
 class ListCreateCourseView(ListCreateAPIView):
@@ -43,7 +43,30 @@ class EditModuleView(RetrieveUpdateDestroyAPIView):
         return Module.objects.filter(course__owner = user)       
 
 
-# class AddFileView(CreateAPIView):
-#     model = Content
-#     serializer_class = ContentSerializer
-#     permission_classes = [permissions.IsAuthenticated]
+class AddFileView(CreateAPIView):
+    model = File
+    serializer_class = FileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Module.objects.filter(course__owner = user)    
+
+class AddFileView(CreateAPIView):
+    model = File
+    serializer_class = FileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Module.objects.filter(course__owner = user)  
+
+class AddFileView(CreateAPIView):
+    model = File
+    serializer_class = FileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Module.objects.filter(course__owner = user)                  
+

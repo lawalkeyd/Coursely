@@ -41,20 +41,20 @@ class FileSerializer(serializers.ModelSerializer):
         read_only_fields = ('created', 'updated')
 
 class ModuleSerializer(serializers.ModelSerializer):
-    text = TextSerializer()
-    images = ImageSerializer()
-    videos = VideoSerializer()
-    files = FileSerializer()
+    text = TextSerializer(many=True, required=False)
+    images = ImageSerializer(many=True, required=False)
+    videos = VideoSerializer(many=True, required=False)
+    files = FileSerializer(many=True, required=False)
     
     class Meta:
         model = Module
         fields = '__all__'
       
     def create(self, validated_data):
-        text = validated_data.pop('text')
-        images = validated_data.pop('images')
-        videos = validated_data.pop('videos')
-        files = validated_data.pop('files')
+        text = validated_data.pop('text', None)
+        images = validated_data.pop('images', None)
+        videos = validated_data.pop('videos', None)
+        files = validated_data.pop('files', None)
         module = Module.objects.create(**validated_data)
         if text:
             for data in text:
