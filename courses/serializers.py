@@ -1,13 +1,21 @@
 from os import name
 from rest_framework import serializers
 from .models import Module, Text, Video, Image, File, Course
-from django.apps import apps
+from django.utils.text import slugify
 
 class CourseSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    slug = serializers.SerializerMethodField(read_only=True)
+
+    def get_slug(self, instance):
+        return slugify(instance.title)
+
     class Meta:
         model = Course
         fields = '__all__'
+
+    def __str__(self):
+        return self.slug    
 
 
 class TextSerializer(serializers.ModelSerializer):
