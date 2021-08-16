@@ -86,4 +86,4 @@ class AddTextView(CreateAPIView):
     def get_queryset(self):
         user = self.request.user
         return Module.objects.filter(course__owner = user)                              
-
+        
