@@ -17,6 +17,7 @@ class EditCourseView(RetrieveUpdateDestroyAPIView):
     model = Course
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'slug'
 
     def get_queryset(self):
         user = self.request.user
