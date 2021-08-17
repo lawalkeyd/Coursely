@@ -50,6 +50,10 @@ class EditModuleView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return Module.objects.filter(course__owner = user)  
+
+    def get_object(self, slug=None):
+        user = self.request.user
+        return Module.objects.filter(course__owner = user, course__slug=slug)         
              
 
 

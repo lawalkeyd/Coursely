@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.utils.text import slugify
+
 
 # Create your models here.
 
@@ -22,6 +24,10 @@ class Course(models.Model):
     slug = models.CharField(max_length=200, unique=True)
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Course, self).save(*args, **kwargs)
     
     class Meta:
         ordering = ['-created']
