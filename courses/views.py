@@ -23,15 +23,7 @@ class EditCourseView(RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.courses_created.all()
-
-# class MultipleFieldLookupMixin(object):
-#     def get_object(self):
-#         queryset = self.get_queryset()             # Get the base queryset
-#         queryset = self.filter_queryset(queryset)  # Apply any filter backends
-#         filter = {}
-#         for field in self.lookup_fields:
-#             filter[field] = self.kwargs[field]
-#         return get_object_or_404(queryset, **filter)        
+    
 
 class ListCreateModuleView(ListCreateAPIView):
     model = Module
@@ -48,13 +40,8 @@ class EditModuleView(RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Module.objects.filter(course__owner = user)  
-
-    def get_object(self, slug=None):
-        user = self.request.user
-        return Module.objects.filter(course__owner = user, course__slug=slug)         
-             
+        queryset = Module.objects.filter(course__slug=self.kwargs['slug'], pk=self.kwargs['pk'])
+        return queryset                   
 
 
 class AddFileView(CreateAPIView):
